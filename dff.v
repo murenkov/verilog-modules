@@ -1,12 +1,16 @@
 module dff(
     input data,
     input enable,
+    input set,
+    input reset,
+    input clock,
 
     output Q,
 );
 
-always @(enable, data) begin
-    if (enable) Q <= data;
+always @(posedge clock or posedge reset) begin
+    if (reset) Q <= 0;
+    else if (enable) Q <= data;
 end
 
 endmodule
