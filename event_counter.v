@@ -62,7 +62,7 @@ always @(*) begin
         4'he : HEX0 = 7'b0000110;
         4'hf : HEX0 = 7'b0001110;
 
-        default : HEX0 = 7'd1111111;
+        default : HEX0 = 7'b1111111;
     endcase
 end 
 
