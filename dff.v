@@ -5,7 +5,7 @@ module dff(
     input reset,
     input clock,
 
-    output reg Q,
+    output reg Q
 );
 
 always @(posedge clock or posedge reset) begin
