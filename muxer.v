@@ -1,13 +1,13 @@
 module muxer(
     input      [9:0] SW,
 
-    output     [7:0] HEX0,
+    output reg [7:0] HEX0,
     output reg [3:0] mux_out
 );
 
 // DC1
+// Count number of "11" combinations
 reg [3:0] dc1_out;
-    
 always @(*) begin
     case (SW[3:0])
         4'b0011 : dc1_out = 4'd1;
@@ -24,8 +24,8 @@ always @(*) begin
 end
 
 // DC2
+// Do logic AND with 0101;
 reg [3:0] dc2_out;
-
 always @(*)
 begin
     case (SW[7:4])
@@ -45,12 +45,13 @@ begin
         4'b1101 : dc2_out = 4'b0101;
         4'b1110 : dc2_out = 4'b0100;
         4'b1111 : dc2_out = 4'b0101;
+
+        default: dc2_out = 4'b0000;
     endcase
 end
 
 // f
 wire f_out;
-
 assign f_out = SW[0] & SW[1] & SW[2] ^ SW[3];
 
 // MUX
