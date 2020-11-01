@@ -5,10 +5,10 @@ module state_machine(
     output reg [6:0] HEX0
 );
 
-localparam ATHENA = 2'b00;
-localparam BRAHMA = 2'b01;
-localparam CHRIST = 2'b10;
-localparam DEIMOS = 2'b11;
+localparam ATHENA = 2'd0;
+localparam BRAHMA = 2'd1;
+localparam CHRIST = 2'd2;
+localparam DEIMOS = 2'd3;
 
 // Button A syncroniser
 reg [2:0] button_A_sync;
@@ -72,7 +72,7 @@ always @(posedge CLOCK_50 or posedge reset) begin
     endcase
 end
 
-// DC
+// HEX0
 always @(*) begin
     case (state)
         2'b00 : HEX0 = 7'b1000000;
