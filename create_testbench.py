@@ -37,7 +37,7 @@ def get_io_names(module_text: str) -> tuple:
 
 
 if __name__ == "__main__":
-    module_name = sys.argv[1]
+    module_name = sys.argv[1].rstrip(".v")
 
     module_text = get_module_text(module_name)
     testbench_ios = get_testbench_ios(module_text)
