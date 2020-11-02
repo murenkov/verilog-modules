@@ -7,10 +7,10 @@ module reg_8bit(
     output reg [7:0] q
 );
 
-always @(posedge clock or posedge reset) begin
-    if (reset) q <= 0;
-    else if (enable) q <= data;
-end
+    always @(posedge clock or posedge reset) begin
+        if (reset) q <= 0;
+        else if (enable) q <= data;
+    end
 
 endmodule
 

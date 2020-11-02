@@ -5,6 +5,7 @@ module bus_or(
     output  [7:0]   result
 );
 
-assign result = x | y;
+    assign result = x | y;
 
 endmodule
+

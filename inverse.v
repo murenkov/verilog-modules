@@ -4,6 +4,7 @@ module inverse(
     output result
 );
 
-assign result = ~data;
+    assign result = ~data;
 
 endmodule
+

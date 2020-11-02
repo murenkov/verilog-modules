@@ -5,6 +5,7 @@ module xor_gate(
     output  result
 );
 
-assign result = a ^ b;
+    assign result = a ^ b;
 
 endmodule
+

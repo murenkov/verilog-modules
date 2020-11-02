@@ -6,8 +6,8 @@ module latch(
     output nQ
 );
 
-assign Q = ~(set & nQ);
-assign nQ = ~(reset & Q);
+    assign Q = ~(set & nQ);
+    assign nQ = ~(reset & Q);
 
 endmodule
 

@@ -8,10 +8,10 @@ module dff(
     output reg Q
 );
 
-always @(posedge clock or posedge reset) begin
-    if (reset) Q <= 0;
-    else if (enable) Q <= data;
-end
+    always @(posedge clock or posedge reset) begin
+        if (reset) Q <= 0;
+        else if (enable) Q <= data;
+    end
 
 endmodule
 
