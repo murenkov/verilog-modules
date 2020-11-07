@@ -1,48 +1,48 @@
 import sys, os
 import re
 
-TAB = "    "
+TAB = 4 * " "
 TIMESCALE = "`timescale 1us/1ns"
 has_clock = 0
-pattern = re.compile(r"module .*\((.*)\);", flags=re.MULTILINE|re.DOTALL)
+module_pattern = re.compile(r"module .*?\((.*?)\);", flags=re.MULTILINE|re.DOTALL)
 vector_pattern = re.compile(r"\[\d+:\d+\]")
 
 def get_module_text(module_name: str) -> str:
     with open(f"{module_name}.v", "r") as module:
-        ios = re.findall(pattern, module.read())[0]
+        ios = re.findall(module_pattern, module.read())[0]
     return ios.strip()
 
-def get_testbench_ios(module_text: str) -> tuple:
+def get_testbench_ports(module_text: str) -> tuple:
     ios = tuple(map(str.strip, module_text.split('\n')))
-    testbench_ios = []
+    testbench_ports = []
     for io in ios:
         input_string = re.sub(r"input\s(reg|wire)?", "reg ", io)
         if input_string != io:
-            testbench_ios.append("".join([input_string.rstrip(","), ";"]))
+            testbench_ports.append("".join([input_string.rstrip(","), ";"]))
 
         output_string = re.sub(r"output\s(reg|wire)?", "wire ", io)
         if output_string != io:
-            testbench_ios.append("".join([output_string.rstrip(","), ";"]))
-    return tuple(testbench_ios)
+            testbench_ports.append("".join([output_string.rstrip(","), ";"]))
+    return tuple(testbench_ports)
 
-def get_io_names(module_text: str) -> tuple:
+def get_ports_names(module_text: str) -> tuple:
     ios = list(map(str.strip, module_text.split('\n')))
-    io_names = []
+    ports_names = []
     for io in ios:
         names = tuple(re.sub(r"(in|out)put\s(reg|wire)?", "", io).replace(",", " ").split())
         for name in names:
             if not(re.findall(vector_pattern, name)):
-                io_names.append(name)
-    return tuple(io_names)
+                ports_names.append(name)
+    return tuple(ports_names)
 
 
 if __name__ == "__main__":
     module_name = sys.argv[1].rstrip(".v")
 
     module_text = get_module_text(module_name)
-    testbench_ios = get_testbench_ios(module_text)
-    io_names = get_io_names(module_text)
-    has_clock = "CLOCK_50" in io_names or "clk" in io_names or "clock" in io_names
+    testbench_ports = get_testbench_ports(module_text)
+    ports_names = get_ports_names(module_text)
+    has_clock = "CLOCK_50" in ports_names or "clk" in ports_names or "clock" in ports_names
     
 
     try:
@@ -57,7 +57,7 @@ if __name__ == "__main__":
         testbench.write(f"module {module_name}_testbench();\n\n")
         
         # Inputs and outputs
-        for item in testbench_ios:
+        for item in testbench_ports:
             testbench.write(f"{TAB}{item}\n")
         testbench.write("\n")
         
@@ -66,9 +66,9 @@ if __name__ == "__main__":
 
         # Device under test
         testbench.write(f"{TAB}{module_name} UUT(\n")
-        for index, name in enumerate(io_names):
+        for index, name in enumerate(ports_names):
             testbench.write(f"{TAB}{TAB}.{name:10s} ({name})")
-            if index < len(io_names) - 1:
+            if index < len(ports_names) - 1:
                 testbench.write(",\n")
         testbench.write("\n")
         testbench.write(f"{TAB});\n\n")
