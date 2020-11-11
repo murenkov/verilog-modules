@@ -37,13 +37,14 @@ module TransmittingDevice_testbench();
         $dumpvars(0, TransmittingDevice_testbench);
         
         clock = 0;
-        queue_write_enable = 1;
+        queue_write_enable = 0;
         KEY = 4'b0000;
         #PERIOD;
         KEY = 4'b0001;
         #PERIOD;
         KEY = 4'b0000;
         #PERIOD;
+        queue_write_enable = 1;
         KEY = 4'b0010;
         #PERIOD;
         KEY = 4'b0000;
