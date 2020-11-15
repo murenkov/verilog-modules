@@ -16,7 +16,7 @@ module FIFO(
 
     reg [ADDRESS_SIZE-1:0] write_pointer, write_pointer_next;
     reg [ADDRESS_SIZE-1:0] read_pointer, read_pointer_next;
-    reg [WORD_SIZE-1:0] memory [0:ADDRESS_SIZE-1];
+    reg [WORD_SIZE-1:0] memory [ADDRESS_SIZE-1:0];
     reg full_next, empty_next;
 
     // Read-write block
@@ -49,28 +49,28 @@ module FIFO(
 
     // Next state logic for pointers
     always @(*) begin
-        write_pointer_next <= write_pointer;
-        read_pointer_next  <= read_pointer;
-        full_next  <= full;
-        empty_next <= empty;
+        write_pointer_next = write_pointer;
+        read_pointer_next  = read_pointer;
+        full_next  = full;
+        empty_next = empty;
 
         case ({write_enable, read_enable})
             2'b01:
                 if (~empty) begin
-                    read_pointer_next <= (read_pointer + 1) % ADDRESS_SIZE;
-                    full_next <= 0;
+                    read_pointer_next = (read_pointer + 1) % ADDRESS_SIZE;
+                    full_next = 0;
                 end
 
             2'b10:
                 if (~full) begin
-                    write_pointer_next <= (write_pointer + 1) % ADDRESS_SIZE;
-                    empty_next <= 0;
+                    write_pointer_next = (write_pointer + 1) % ADDRESS_SIZE;
+                    empty_next = 0;
                 end
 
             2'b11:
                 begin
-                    read_pointer_next  <= (read_pointer  + 1) % ADDRESS_SIZE;
-                    write_pointer_next <= (write_pointer + 1) % ADDRESS_SIZE;
+                    read_pointer_next  = (read_pointer  + 1) % ADDRESS_SIZE;
+                    write_pointer_next = (write_pointer + 1) % ADDRESS_SIZE;
                 end
         endcase
     end
