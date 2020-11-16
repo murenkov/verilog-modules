@@ -46,7 +46,7 @@ module TransmittingDevice(
 
     // Touch counter
     reg [WORD_SIZE-1:0] touch_counter;
-    always @(posedge touch or posedge reset)
+    always @(posedge CLOCK_50 or posedge reset)
         if (reset)
             touch_counter <= 0;
         else if (touch)
@@ -73,21 +73,24 @@ module TransmittingDevice(
 
     // State handler
     always @(posedge CLOCK_50 or posedge reset)
-        case (state)
-            IDLE:
-                if (!queue_is_empty && !transmitter_is_busy) 
-                    state <= LOAD;
+        if (reset)
+            state <= IDLE;
+        else 
+            case (state)
+                IDLE:
+                    if (!queue_is_empty && !transmitter_is_busy) 
+                        state <= LOAD;
 
-            LOAD:
-                state <= TRANSMIT;
+                LOAD:
+                    state <= TRANSMIT;
 
-            TRANSMIT:
-                state <= IDLE;
-        endcase
+                TRANSMIT:
+                    state <= IDLE;
+            endcase
 
     assign LEDR = (queue_is_full)  ? 10'b1111111111 : 
                   (queue_is_empty) ? 10'b0000000000 : 10'b0000011111;
-    assign queue_write_enable = SW[0];
+    assign queue_write_enable = touch;
     assign queue_read_enable = (state == LOAD);
     assign start_transaction = (state == TRANSMIT);
 

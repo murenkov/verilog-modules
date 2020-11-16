@@ -10,7 +10,7 @@ module Transmitter(
     output reg [6:0] tx
 );
 
-    // assign busy = start;
+    assign busy = start;
 
     always @(*)
         if (start) begin
