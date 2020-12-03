@@ -70,8 +70,8 @@ module PS2Keyboard(
 
     // Stop bits parity checker
     function check_parity;
-        input [7:0] a;
-        check_parity = ~(a[0] ^ a[1] ^ a[2] ^ a[3] ^ a[4] ^ a[5] ^ a[6] ^ a[7]);
+        input [7:0] data;
+        check_parity = ~^data;
     endfunction
 
     always @(posedge clock or posedge reset)
