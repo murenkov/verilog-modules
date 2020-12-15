@@ -43,17 +43,17 @@ always @(posedge clk_50 or posedge areset)
         case (state)
             IDLE:
                 if(!ps2_dat)
-                    state = RECEIVE_DATA;
+                    state <= RECEIVE_DATA;
 
             RECEIVE_DATA:
                 if (count_bit == 8)
-                    state = CHECK_PARITY_STOP_BITS;
+                    state <= CHECK_PARITY_STOP_BITS;
 
             CHECK_PARITY_STOP_BITS:
-                state = IDLE;
+                state <= IDLE;
 
             default:
-                state = IDLE;
+                state <= IDLE;
       endcase
 
 always @(posedge clk_50 or posedge areset)

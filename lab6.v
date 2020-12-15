@@ -6,8 +6,11 @@ module lab6(
 
     output valid_data,
     output [7:0] data,
-    output [6:0] HEX0, HEX1
+    output reg [6:0] HEX0, HEX1
 );
+
+    wire reset;
+    assign reset = KEY[0];
     wire [13:0] hex_out;
 
     localparam KEY_Q = 8'h15;
@@ -17,15 +20,17 @@ module lab6(
     localparam KEY_T = 8'h2C;
     localparam KEY_Y = 8'h35;
 
+    always @(posedge CLOCK_50)
+        case (data)
+            KEY_Q: {HEX1, HEX0} <= hex_out;
+            KEY_W: {HEX1, HEX0} <= hex_out;
+            KEY_E: {HEX1, HEX0} <= hex_out;
+            KEY_R: {HEX1, HEX0} <= hex_out;
+            KEY_T: {HEX1, HEX0} <= hex_out;
+            KEY_Y: {HEX1, HEX0} <= hex_out;
 
-    assign {HEX1, HEX0} = (
-        hex_out == KEY_Q ||
-        hex_out == KEY_W ||
-        hex_out == KEY_E ||
-        hex_out == KEY_R ||
-        hex_out == KEY_T ||
-        hex_out == KEY_Y
-    ) ? hex_out : 14'h3FFF;
+            default: {HEX1, HEX0} <= 14'h3FFF;
+        endcase
 
     ps2_keyboard ps2(
         .areset     (reset),

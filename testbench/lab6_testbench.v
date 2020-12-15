@@ -10,8 +10,11 @@ module lab6_testbench ();
     wire [7:0] data;
     wire [6:0] HEX0, HEX1;
 
+    wire [3:0] keys;
+    assign keys = {3'b000, reset};
+
     lab6 UUT( 
-        // .KEY        (keys),
+        .KEY        (keys),
         .CLOCK_50   (clock),
 
         .ps2_clock  (ps2_clock), 
@@ -45,6 +48,8 @@ module lab6_testbench ();
         ps2_send(8'h15);
         ps2_send(8'h35);
         ps2_send(8'hAB);
+        ps2_send(8'hDF);
+        ps2_send(8'h1D);
 
         #100
         $finish;
