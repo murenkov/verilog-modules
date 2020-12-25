@@ -33,8 +33,8 @@ module lab6(
         endcase
 
     ps2_keyboard ps2(
-        .areset     (reset),
-        .clk_50     (CLOCK_50),
+        .reset      (reset),
+        .clock      (CLOCK_50),
         .ps2_clk    (ps2_clock),
         .ps2_dat    (ps2_data),
         .valid_data (valid_data),
