@@ -10,8 +10,8 @@ module ps2_keyboard_testbench ();
     wire [7:0] data;
 
     ps2_keyboard UUT( 
-        .areset     (reset),
-        .clk_50     (clock),
+        .reset      (reset),
+        .clock      (clock),
 
         .ps2_clk    (ps2_clock), 
         .ps2_dat    (ps2_data), 
