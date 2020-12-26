@@ -30,5 +30,5 @@
 * [Audio](Audio.v)
   * [PS/2 Keyboard Controller](ps2_keyboard.v)
   * [Square Code](SquareCode.v)
-  * [KeyToNote](KeyToNote.v)
+  * [Key To Note Decoder](KeyToNote.v)
   * [Seven Segment Display](SevenSegmentDisplay.v)
