@@ -21,7 +21,7 @@
   * [Queue](FIFO.v)
   * [Transmitter](Transmitter.v)
 
-## Лабораторная работа 6
+## Лабораторная работа 6. Контроллер PS/2 для клавиатуры
 * [Top-level module](lab6.v)
   * [PS/2 Keyboard Controller](ps2_keyboard.v)
   * [Seven Segment Display](SevenSegmentDisplay.v)
