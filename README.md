@@ -26,3 +26,9 @@
   * [PS/2 Keyboard Controller](ps2_keyboard.v)
   * [Seven Segment Display](SevenSegmentDisplay.v)
 
+## Лабораторная работа 7. Цифровой звук
+* [Audio](Audio.v)
+  * [PS/2 Keyboard Controller](ps2_keyboard.v)
+  * [Square Code](SquareCode.v)
+  * [KeyToNote](KeyToNote.v)
+  * [Seven Segment Display](SevenSegmentDisplay.v)
