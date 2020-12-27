@@ -36,13 +36,15 @@ module Audio(
     reg [15:0] volume;
     reg enable;
     wire valid_data;
-    reg valid_prev;
+    reg break_start;
     reg state;
 
     // Next-state logic
-    always @(*)
+    always @(posedge valid_data)
         if (data == 8'hF0)
-            valid_prev = 1'b1;
+            break_start = 1'b1;
+        else
+            break_start = 1'b0;
 
     // State machine
     always @(CLOCK_50)
@@ -51,12 +53,12 @@ module Audio(
         else case (state)
             IDLE:
                 if (valid_data && data != 8'hF0)
-                    state <= KEY_PRESSED;
+                    state = KEY_PRESSED;
 
             KEY_PRESSED:
-                if (valid_prev && valid_data) begin
+                if (break_start && valid_data) begin
                     state = IDLE;
-                    valid_prev = 1'b0;
+                    // break_start = 1'b0;
                 end
         endcase
 
