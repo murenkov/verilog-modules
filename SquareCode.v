@@ -11,30 +11,27 @@ module SquareCode(
     reg [20:0] counter;
     reg square;
 
-    always @(posedge clock or posedge reset) begin
+    always @(posedge clock or posedge reset)
         if (reset)
             counter <= 21'd0;
         else if ((counter >= half_period) || ~enable)
             counter <= 21'd0;
         else counter <= counter + 1;
-    end
 
-    always @(posedge clock or posedge reset) begin
+    always @(posedge clock or posedge reset)
         if (reset)
             wr <= 1'b0;
         else if ((counter >= half_period) && enable)
             wr <= 1'b1;
         else
             wr <= 1'b0;
-    end
 
-    always @(posedge clock or posedge reset) begin
-        if (reset) begin
+    always @(posedge clock or posedge reset)
+        if (reset)
             square <= 1'b0;
-        end else if (enable)
+        else if (enable)
             if (counter >= half_period)
                 square <= ~square;
-    end
 
     assign square_wave = (square && enable) ? volume : 16'd0;
 
