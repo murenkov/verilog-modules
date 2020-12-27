@@ -11,21 +11,6 @@ module Audio(
     output wr
 );
 
-    /*
-    localparam NOTE_C  = 19'd95555;
-    localparam NOTE_DB = 19'd90192;
-    localparam NOTE_D  = 19'd85130;
-    localparam NOTE_EB = 19'd80352;
-    localparam NOTE_E  = 19'd75842;
-    localparam NOTE_F  = 19'd71585;
-    localparam NOTE_GB = 19'd67568;
-    localparam NOTE_G  = 19'd63775;
-    localparam NOTE_AB = 19'd60196;
-    localparam NOTE_A  = 19'd56817;
-    localparam NOTE_BB = 19'd53628;
-    localparam NOTE_B  = 19'd50618; 
-    */
-
     localparam KEY_Q           = 8'h15;
     localparam KEY_W           = 8'h1D;
     localparam KEY_E           = 8'h24;
@@ -58,8 +43,6 @@ module Audio(
     always @(*)
         if (data == 8'hF0)
             valid_prev = 1'b1;
-        else if (valid_prev && valid_data && data != 8'hF0)
-            ; // valid_prev = 1'b0;
 
     // State machine
     always @(CLOCK_50)
