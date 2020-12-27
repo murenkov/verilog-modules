@@ -34,41 +34,28 @@ module Audio(
     wire [7:0] data;
     wire [13:0] hex_out;
     reg [15:0] volume;
-    reg enable;
     wire valid_data;
     reg break_start;
-    reg state;
+    reg enable;
 
-    // Next-state logic
-    always @(posedge valid_data)
-        if (data == 8'hF0)
-            break_start = 1'b1;
+    always @(negedge valid_data)
+        if (data == BREAK_CODE)
+            break_start <= 1'b1;
         else
-            break_start = 1'b0;
+            break_start <= 1'b0;
 
     // State machine
-    always @(CLOCK_50)
+    always @(posedge CLOCK_50)
         if (reset)
-            state <= IDLE;
-        else case (state)
+            enable <= IDLE;
+        else case (enable)
             IDLE:
-                if (valid_data && data != 8'hF0)
-                    state = KEY_PRESSED;
+                if (valid_data && !break_start)
+                    enable = KEY_PRESSED;
 
             KEY_PRESSED:
-                if (break_start && valid_data) begin
-                    state = IDLE;
-                    // break_start = 1'b0;
-                end
-        endcase
-
-    always @(posedge valid_data)
-        case (state)
-            IDLE:
-                enable = 1'b0;
-            KEY_PRESSED:
-                if (data != 8'hF0)
-                    enable = 1'b1;
+                if (valid_data && break_start)
+                    enable = IDLE;
         endcase
 
     always @(enable)
