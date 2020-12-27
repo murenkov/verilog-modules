@@ -60,7 +60,7 @@ module Audio(
                 end
         endcase
 
-    always @(*)
+    always @(posedge valid_data)
         case (state)
             IDLE:
                 enable = 1'b0;
@@ -69,23 +69,27 @@ module Audio(
                     enable = 1'b1;
         endcase
 
-    always @(state)
-        case (data)
-            KEY_Q:           {HEX1, HEX0} <= hex_out;
-            KEY_W:           {HEX1, HEX0} <= hex_out;
-            KEY_E:           {HEX1, HEX0} <= hex_out;
-            KEY_R:           {HEX1, HEX0} <= hex_out;
-            KEY_T:           {HEX1, HEX0} <= hex_out;
-            KEY_Y:           {HEX1, HEX0} <= hex_out;
-            KEY_U:           {HEX1, HEX0} <= hex_out;
-            KEY_I:           {HEX1, HEX0} <= hex_out;
-            KEY_O:           {HEX1, HEX0} <= hex_out;
-            KEY_P:           {HEX1, HEX0} <= hex_out;
-            KEY_OPEN_BRACE:  {HEX1, HEX0} <= hex_out;
-            KEY_CLOSE_BRACE: {HEX1, HEX0} <= hex_out;
+    always @(enable)
+        if (enable)
+            case (data)
+                KEY_Q:           {HEX1, HEX0} <= hex_out;
+                KEY_W:           {HEX1, HEX0} <= hex_out;
+                KEY_E:           {HEX1, HEX0} <= hex_out;
+                KEY_R:           {HEX1, HEX0} <= hex_out;
+                KEY_T:           {HEX1, HEX0} <= hex_out;
+                KEY_Y:           {HEX1, HEX0} <= hex_out;
+                KEY_U:           {HEX1, HEX0} <= hex_out;
+                KEY_I:           {HEX1, HEX0} <= hex_out;
+                KEY_O:           {HEX1, HEX0} <= hex_out;
+                KEY_P:           {HEX1, HEX0} <= hex_out;
+                KEY_OPEN_BRACE:  {HEX1, HEX0} <= hex_out;
+                KEY_CLOSE_BRACE: {HEX1, HEX0} <= hex_out;
 
-            default: {HEX1, HEX0} <= 14'h3FFF;
-        endcase
+                default: {HEX1, HEX0} <= 14'h3FFF;
+            endcase
+        else
+            {HEX1, HEX0} <= 14'h3FFF;
+
 
     // Reset button syncroniser
     reg [2:0] reset_button_sync;
